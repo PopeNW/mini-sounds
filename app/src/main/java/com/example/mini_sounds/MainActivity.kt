@@ -17,15 +17,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.goodConfigButton.setOnClickListener {
-            getConfigData()
+            getConfigData("2.3.0")
         }
 
         binding.badConfigButton.setOnClickListener {
-            getConfigData()
+            getConfigData("2.1.0")
         }
     }
 
-    private fun getConfigData() {
+    private fun getConfigData(appVersion: String) {
         val mainActivityJob = Job()
 
         val errorHandler = CoroutineExceptionHandler { _, exception ->
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         val coroutineScope = CoroutineScope(mainActivityJob + Dispatchers.Main)
         coroutineScope.launch(errorHandler) {
-            val result = RemoteConfigRepository().getConfig()
+            val result = RemoteConfigRepository().getConfig(appVersion)
             binding.configTitle.text = result.status.title
             binding.configMessage.text = result.status.message
             binding.configLinkTitle.text = result.status.linkTitle

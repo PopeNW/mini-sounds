@@ -4,6 +4,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface RemoteConfigApi {
-    @GET("config.json")
-    suspend fun getRemoteConfig(): RemoteConfig
+    @GET("{appVersion}/config.json")
+    suspend fun getRemoteConfig(@Path("appVersion") appVersion: String): RemoteConfig
 }

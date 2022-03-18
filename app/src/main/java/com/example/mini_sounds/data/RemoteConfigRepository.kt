@@ -5,7 +5,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-const val BASE_URL = "https://sounds-mobile-config.files.bbci.co.uk/android/2.3.0/"
+const val BASE_URL = "https://sounds-mobile-config.files.bbci.co.uk/android/"
 
 class RemoteConfigRepository {
 
@@ -22,7 +22,7 @@ class RemoteConfigRepository {
         retrofit.create(RemoteConfigApi::class.java)
     }
 
-    suspend fun getConfig(): RemoteConfig {
-        return remoteConfigApi.getRemoteConfig()
+    suspend fun getConfig(appVersion: String): RemoteConfig {
+        return remoteConfigApi.getRemoteConfig(appVersion)
     }
 }
