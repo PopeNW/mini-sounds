@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.badConfigButton.setOnClickListener {
-            getConfigData("2.1.0")
+            getConfigData("1.15.0")
         }
     }
 
@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
             binding.googleAppStoreLink.text = result.status.googleAppStoreUrl
             binding.amazonAppStoreUrl.text = result.status.amazonAppStoreUrl
             binding.versionStatus.text = if (result.status.on) "Supported version" else "Unsupported version"
-
+            binding.rmsApiKey.text = getString(R.string.rms_api_key_text, result.rmsConfig.apiKey)
+            binding.rmsBaseUrl.text = getString(R.string.rms_base_url_text, result.rmsConfig.rootUrl)
         }
 
     }

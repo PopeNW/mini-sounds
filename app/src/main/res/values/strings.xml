@@ -8,4 +8,6 @@
     <string name="google_app_store_link_text">Google Play Store URL</string>
     <string name="amazon_app_store_link_text">Amazon App Store URL</string>
     <string name="version_status_text">Version Status</string>
+    <string name="rms_api_key_text">RMS API Key: %s</string>
+    <string name="rms_base_url_text">RMS Base URL: %s</string>
 </resources>
