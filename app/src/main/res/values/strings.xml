@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Mini-Sounds</string>
+    <string name="title">Status Title</string>
+    <string name="message_text">Status Message</string>
+    <string name="good_config_button_text">Good Config</string>
+    <string name="bad_config_button_text">Bad Config</string>
+    <string name="link_title_text">App Store Link Title</string>
+    <string name="google_app_store_link_text">Google Play Store URL</string>
+    <string name="amazon_app_store_link_text">Amazon App Store URL</string>
+    <string name="version_status_text">Version Status</string>
 </resources>

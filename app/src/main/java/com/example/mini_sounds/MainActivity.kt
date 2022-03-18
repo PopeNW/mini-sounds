@@ -1,23 +1,51 @@
 package com.example.mini_sounds
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.example.mini_sounds.MiniSoundsHttpClient as MiniSoundsHttpClient
-
-const val TAG = "MainActivity"
-
-fun configUrlBuilder(os: String = "android", appVersion: String = "2.3.0"): String {
-    return "https://sounds-mobile-config.files.bbci.co.uk/$os/$appVersion/config.json"
-}
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.example.mini_sounds.data.RemoteConfigRepository
+import com.example.mini_sounds.databinding.ActivityMainBinding
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val configData = MiniSoundsHttpClient().getString(configUrlBuilder())
+        binding.goodConfigButton.setOnClickListener {
+            getConfigData()
+        }
+
+        binding.badConfigButton.setOnClickListener {
+            getConfigData()
+        }
+    }
+
+    private fun getConfigData() {
+        val mainActivityJob = Job()
+
+        val errorHandler = CoroutineExceptionHandler { _, exception ->
+            AlertDialog.Builder(this).setTitle("Error")
+                .setMessage(exception.message)
+                .setPositiveButton(android.R.string.ok) { _, _ -> }
+                .setIcon(android.R.drawable.ic_dialog_alert).show()
+        }
+
+        val coroutineScope = CoroutineScope(mainActivityJob + Dispatchers.Main)
+        coroutineScope.launch(errorHandler) {
+            val result = RemoteConfigRepository().getConfig()
+            binding.configTitle.text = result.status.title
+            binding.configMessage.text = result.status.message
+            binding.configLinkTitle.text = result.status.linkTitle
+            binding.googleAppStoreLink.text = result.status.googleAppStoreUrl
+            binding.amazonAppStoreUrl.text = result.status.amazonAppStoreUrl
+            binding.versionStatus.text = if (result.status.on) "Supported version" else "Unsupported version"
+
+        }
 
     }
 }
