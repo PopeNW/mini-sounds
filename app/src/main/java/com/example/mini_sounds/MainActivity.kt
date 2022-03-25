@@ -3,7 +3,12 @@ package com.example.mini_sounds
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import com.example.mini_sounds.data.RemoteConfig
 import com.example.mini_sounds.data.RemoteConfigRepository
+import com.example.mini_sounds.data.StatusConfig
 import com.example.mini_sounds.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 
@@ -16,37 +21,42 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.goodConfigButton.setOnClickListener {
-            getConfigData("2.3.0")
-        }
+        goToHome()
 
-        binding.badConfigButton.setOnClickListener {
-            getConfigData("1.15.0")
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home_link -> goToHome()
+
+//                R.id.live_link -> goToLive()
+//
+//                R.id.killed_link -> goToKilled()
+
+                else -> false
+            }
         }
     }
 
-    private fun getConfigData(appVersion: String) {
-        val mainActivityJob = Job()
-
-        val errorHandler = CoroutineExceptionHandler { _, exception ->
-            AlertDialog.Builder(this).setTitle("Error")
-                .setMessage(exception.message)
-                .setPositiveButton(android.R.string.ok) { _, _ -> }
-                .setIcon(android.R.drawable.ic_dialog_alert).show()
+    private fun goToHome(): Boolean {
+        supportFragmentManager.commit {
+            replace<HomeFragment>(R.id.container, null, null)
         }
 
-        val coroutineScope = CoroutineScope(mainActivityJob + Dispatchers.Main)
-        coroutineScope.launch(errorHandler) {
-            val result = RemoteConfigRepository().getConfig(appVersion)
-            binding.configTitle.text = result.status.title
-            binding.configMessage.text = result.status.message
-            binding.configLinkTitle.text = result.status.linkTitle
-            binding.googleAppStoreLink.text = result.status.googleAppStoreUrl
-            binding.amazonAppStoreUrl.text = result.status.amazonAppStoreUrl
-            binding.versionStatus.text = if (result.status.on) "Supported version" else "Unsupported version"
-            binding.rmsApiKey.text = getString(R.string.rms_api_key_text, result.rmsConfig.apiKey)
-            binding.rmsBaseUrl.text = getString(R.string.rms_base_url_text, result.rmsConfig.rootUrl)
-        }
-
+        return true
     }
+
+//    private fun goToLive(): Boolean {
+//        supportFragmentManager.commit {
+//            replace<LiveConfigFragment>(R.id.container, null, null)
+//        }
+//
+//        return true
+//    }
+//
+//    private fun goToKilled(): Boolean {
+//        supportFragmentManager.commit {
+//            replace<KilledConfigFragment>(R.id.container, null, null)
+//        }
+//
+//        return true
+//    }
 }

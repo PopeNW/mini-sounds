@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_link"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="@string/home_link_text" />
+    <item
+        android:id="@+id/live_link"
+        android:icon="@android:drawable/btn_star_big_on"
+        android:title="@string/live_link_text" />
+    <item
+        android:id="@+id/killed_link"
+        android:icon="@android:drawable/ic_dialog_alert"
+        android:title="@string/killed_link_text" />
+</menu>

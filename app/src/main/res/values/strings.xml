@@ -2,12 +2,17 @@
     <string name="app_name">Mini-Sounds</string>
     <string name="title">Status Title</string>
     <string name="message_text">Status Message</string>
-    <string name="good_config_button_text">Good Config</string>
-    <string name="bad_config_button_text">Bad Config</string>
     <string name="link_title_text">App Store Link Title</string>
     <string name="google_app_store_link_text">Google Play Store URL</string>
     <string name="amazon_app_store_link_text">Amazon App Store URL</string>
     <string name="version_status_text">Version Status</string>
     <string name="rms_api_key_text">RMS API Key: %s</string>
     <string name="rms_base_url_text">RMS Base URL: %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="live_link_text">Live Config</string>
+    <string name="killed_link_text">Killed Config</string>
+    <string name="home_link_text">Home</string>
+    <string name="welcome_text">Select a config</string>
+    <string name="ok">Ok</string>
 </resources>
