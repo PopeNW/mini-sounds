@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.*
 import androidx.lifecycle.Observer
-import com.example.mini_sounds.data.RemoteConfig
-import com.example.mini_sounds.data.RemoteConfigRepository
-import com.example.mini_sounds.data.RmsConfig
-import com.example.mini_sounds.data.StatusConfig
+import com.example.mini_sounds.data.*
 import com.example.mini_sounds.databinding.FragmentHomeBinding
 import kotlinx.coroutines.*
 
@@ -70,10 +67,30 @@ class HomeFragment : Fragment() {
 
     private fun renderFragmentWithConfigData() {
         val isActiveConfig = viewModel.remoteConfig.value?.status?.on
-        if (isActiveConfig == true)
-            goToLiveConfigFragment()
-        else
+        if (isActiveConfig == true) {
+            renderLiveFragmentWithRmsData()
+        } else {
             goToKilledConfigFragment()
+        }
+    }
+
+    private fun renderLiveFragmentWithRmsData() {
+        val mainActivityJob = Job()
+
+        val errorHandler = CoroutineExceptionHandler { _, exception ->
+            AlertDialog.Builder(this.requireContext()).setTitle("Error")
+                .setMessage(exception.message)
+                .setPositiveButton(R.string.ok) { _, _ -> }
+                .setIcon(R.drawable.ic_dialog_alert).show()
+        }
+
+        val coroutineScope = CoroutineScope(mainActivityJob + Dispatchers.Main)
+
+        coroutineScope.launch(errorHandler) {
+            val result = RmsRepository().getRmsStations()
+            viewModel.setRms(result)
+            goToLiveConfigFragment()
+        }
     }
 
     private fun goToLiveConfigFragment(): Boolean {
